@@ -1,0 +1,38 @@
+# Challenge setting
+exp_name: 'test' # name that will be used in wandb
+seed: 42 # random seed
+debug: False # debug mode, will use cpu only
+debug_challenge: False # only one preprocessing thread
+debug_max_nb_scenarios: 0 # if other than zero, it will cl
+devices: [0,1,2,3,4,5,6,7] # gpu ids
+drop_no_future: True
+need_match_with_gt : True
+nei_weight_by_score: False
+# data related
+load_num_workers: 8 # number of workers for loading data
+train_data_path: ["Path2/train/"]
+
+
+# clean val
+val_data_path: [ "Path2/val/" ] 
+
+max_data_num: [ 10000000000000 ] # maximum number of data for each training dataset
+past_len: 21 # history trajectory length, past 2s at 10Hz + current timestep.
+future_len: 60  # future trajectory length, 3s at 10Hz
+object_type: [ 'VEHICLE', 'PEDESTRIAN', 'CYCLIST', 'OTHER'] #, 'PEDESTRIAN', 'CYCLIST' # object types included in the training set
+line_type: [ 'lane', 'stop_sign','road_edge','road_line','crosswalk','speed_bump' ] # line type to be considered in the input
+masked_attributes: [ 'z_axis', 'size' ] # attributes to be masked in the input
+trajectory_sample_interval: 1 # sample interval for the trajectory
+only_train_on_ego: False # only train on AV
+center_offset_of_map: [ 30.0, 0.0 ] # center offset of the map
+#use_cache: False # use cache for data loading
+overwrite_cache: False # overwrite existing cache
+#store_data_in_memory: False # store data in memory
+
+# Starts from exisiting checkpoint
+pretrained: ../model_zoo/trained_GT_0.86.pkl 
+ckpt_path: null
+
+defaults:
+  - method: MTR
+
