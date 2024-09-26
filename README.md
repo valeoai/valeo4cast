@@ -25,6 +25,11 @@ pip install --no-cache-dir  -r requirements.txt
 pip install  --no-cache-dir torch==2.0.1+cu118 torchvision==0.15.2+cu118 --index-url https://download.pytorch.org/whl/cu118
 pip setup.py develop
 ```
+Known issues and solutions:
+
+* Make sure to have the compiled knn_cuda.cpython-39-x86_64-linux-gnu.so in `./UniTraj/unitraj/models/mtr/ops/knn` Otherwise, it means that the command python setup.py develop didn’t work well when install UniTraj
+
+* if you have path issue when running 'train.py' or 'predict.py', you can try to insert the absolute path of unitraj and `./UniTraj/unitraj/models/mtr/ops/knn` at the beginning of 'train.py' and 'predict.py
 
 2. Install ScenarioNet:
 ```bash
