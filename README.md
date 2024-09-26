@@ -214,14 +214,14 @@ python post_processing_files.py --pickle_file=Path2PklFromPreviousStep #please d
 It has the same name as the input pickle_file but with `_processed` tag in the end. Now you're ready to submit/evaluate your results!
 
 
-### 3. Evaluation
+### 4. Evaluation
 Run
 ```bash
 cd UniTraj/unitraj
 python eval_forecaster.py --pred_path=Path2Pkl ----datadir=PathAV2Sensor --split [train/val/test]
 ```
 
-### 4. Results
+### 5. Results
 We provide the forecasting results for both the validaiton and test set, you can find them in the [data_ckpts_res](https://drive.google.com/drive/folders/1qzHdi6wIexiyrF03pZHPzz5h1LssqeX4?usp=sharing): `results/forecasting/test.pkl` and `results/forecasting/val.pkl` 
 
 ### For citation:
