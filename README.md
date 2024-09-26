@@ -114,7 +114,7 @@ argoverse2_sensor
 ...
 ```
 ### 1. Tracking
-We provide the detection results in the github release `data/det/detection_[train]/[val]/[test].feather`, they follow the `.feather` format described in https://github.com/argoverse/av2-api/blob/main/tutorials/object_detection_evaluation.ipynb
+We provide the detection results in the [data_ckpts_res](https://drive.google.com/drive/folders/1qzHdi6wIexiyrF03pZHPzz5h1LssqeX4?usp=sharing) `data/det/detection_[train]/[val]/[test].feather`, they follow the `.feather` format described in https://github.com/argoverse/av2-api/blob/main/tutorials/object_detection_evaluation.ipynb
 
 option 1 (single-worker):
 ```bash
@@ -150,7 +150,7 @@ An extra linear interpolation step is added:
 cd valeo4cast/tracking/ab3dmot_track
 python interpolation.py # you should modify the pkl_path inside, to the location of your tracking pkl.
 ```
-This will generate `[train/val/test]_tracking_interpolated.pkl` (the result is @10Hz, if you want @2Hz, just modify the sub_sample_ratio in interpolation.py), they will be used in the following step. If you want to skip this step, you can find our generated tracking pkls in the github release `data/track/[train/val/test]_tracking.pkl`
+This will generate `[train/val/test]_tracking_interpolated.pkl` (the result is @10Hz, if you want @2Hz, just modify the sub_sample_ratio in interpolation.py), they will be used in the following step. If you want to skip this step, you can find our generated tracking pkls in the [data_ckpts_res](https://drive.google.com/drive/folders/1qzHdi6wIexiyrF03pZHPzz5h1LssqeX4?usp=sharing) `data/track/[train/val/test]_tracking.pkl`
 
 ### 2. Generate scenarionet data for forecasting
 We modified the scenarionet code (mainly `scenarionet/converter/argoverse2/utils.py`) to process Argoverse2 **Sensor** data, **given predicted tracking results**.
@@ -167,7 +167,7 @@ python -m scenarionet.convert_argoverse2 -d PATH2SAVE --raw_data_path ROOTPATH/a
 python -m scenarionet.convert_argoverse2 -d PATH2SAVE --raw_data_path ROOTPATH/argoverse2_sensor/test/
 
 ```
-The code will generate [scenarionet](https://metadriverse.github.io/scenarionet/) format data. If you want to skip step 0 and 1, we provide the generated scenarionet format data in the github release: `data/scenarionet_files/for_training.zip` and `data/scenarionet_files/for_val_and_test.zip`
+The code will generate [scenarionet](https://metadriverse.github.io/scenarionet/) format data. If you want to skip step 0 and 1, we provide the generated scenarionet format data in the [data_ckpts_res](https://drive.google.com/drive/folders/1qzHdi6wIexiyrF03pZHPzz5h1LssqeX4?usp=sharing): `data/scenarionet_files/for_training.zip` and `data/scenarionet_files/for_val_and_test.zip`
 
 ### 3. Forcasting using MTR implemented with Unitraj
 UniTraj uses [Hydra](https://hydra.cc/docs/intro/) to manage configuration files.
@@ -181,7 +181,7 @@ The configuration file is organized in a hierarchical structure, and the configu
 Please refer to `unitraj/config/challenge_config_noisy_[train/val/test].yaml` and `method/mtr/MTR.yaml` for more details.
 
 ####  Train
-We finetune from ground-truth trajectory pretrained model, on predicted inputs. The pretrained model can be found in the github release `pretrained_weights/trained_GT_0.86.pkl`. Please add the pretrained weight path to `pretrained:` in `unitraj/config/challenge_config_noisy_train.yaml`
+We finetune from ground-truth trajectory pretrained model, on predicted inputs. The pretrained model can be found in the [data_ckpts_res](https://drive.google.com/drive/folders/1qzHdi6wIexiyrF03pZHPzz5h1LssqeX4?usp=sharing) `pretrained_weights/trained_GT_0.86.pkl`. Please add the pretrained weight path to `pretrained:` in `unitraj/config/challenge_config_noisy_train.yaml`
 
 then run
 ```bash
@@ -190,7 +190,7 @@ python train.py --config-name=challenge_config_noisy_train.yaml
 ```
 (The first time running the code will generate the cache for the scenarionet files, currently it does not support multi-gpu, you may set in the config file `devices: [0]` for the caching process, otherwise the default number of GPUs for training is `devices: [0,1,2,3,4,5,6,7]`.)
 
-During the training, the best checkpoint and log files will be saved in `unitraj/lightning_logs/`, we provide the trained weight in the github release `pretrained_weights/checkpoint_for_val_test.ckpt`.
+During the training, the best checkpoint and log files will be saved in `unitraj/lightning_logs/`, we provide the trained weight in the [data_ckpts_res](https://drive.google.com/drive/folders/1qzHdi6wIexiyrF03pZHPzz5h1LssqeX4?usp=sharing) `pretrained_weights/checkpoint_for_val_test.ckpt`.
 
 ####  Inference on val and test sets
 please indicate the trained model weight to `ckpt_path:` in `unitraj/configs/challenge_config_noisy_val.yaml` and `unitraj/configs/challenge_config_noisy_test.yaml`, and indicate the data path for va and test in  `val_data_path:`
@@ -222,7 +222,7 @@ python eval_forecaster.py --pred_path=Path2Pkl ----datadir=PathAV2Sensor --split
 ```
 
 ### 4. Results
-We provide the forecasting results for both the validaiton and test set, you can find them in the github release: `results/forecasting/test.pkl` and `results/forecasting/val.pkl` 
+We provide the forecasting results for both the validaiton and test set, you can find them in the [data_ckpts_res](https://drive.google.com/drive/folders/1qzHdi6wIexiyrF03pZHPzz5h1LssqeX4?usp=sharing): `results/forecasting/test.pkl` and `results/forecasting/val.pkl` 
 
 ### For citation:
 ```
