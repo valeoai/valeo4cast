@@ -221,22 +221,22 @@ class BaseDataset(Dataset):
             if "need_match_with_gt" in self.config and self.config['need_match_with_gt']:
                 if '/val/' in data_path and 'merge' not in data_path:
                     #print("in GT val.")
-                    data_path_GT = "/mnt/proj2/dd-24-45/data/argoverse2_sensor_scenarios/val/"
+                    data_path_GT = "/Path/TO/argoverse2_sensor_scenarios/val/"
                     _, _, mapping_GT = read_dataset_summary(data_path_GT)
                 elif '/train/' in data_path and 'merge' not in data_path:
-                    data_path_GT = "/mnt/proj2/dd-24-45/data/argoverse2_sensor_scenarios/train/"
+                    data_path_GT = "/Path/TO/argoverse2_sensor_scenarios/train/"
                     #print("in GT train.")
                     _, _, mapping_GT = read_dataset_summary(data_path_GT)
                 else:
                     #print("in GT merge.")
-                    data_path_GT = "/mnt/proj2/dd-24-45/data/argoverse2_sensor_scenarios/merge/"
+                    data_path_GT = "/Path/TO/argoverse2_sensor_scenarios/merge/"
                     mapping_GT = {}
-                    _, _, mapping_GT_train = read_dataset_summary("/mnt/proj2/dd-24-45/data/argoverse2_sensor_scenarios/train/")
+                    _, _, mapping_GT_train = read_dataset_summary("/Path/TO/argoverse2_sensor_scenarios/train/")
                     for k,v in mapping_GT_train.items():
                         assert k not in mapping_GT
                         mapping_GT[k] = 'train/' + v + '/'
                         
-                    _, _, mapping_GT_val = read_dataset_summary("/mnt/proj2/dd-24-45/data/argoverse2_sensor_scenarios/val/")
+                    _, _, mapping_GT_val = read_dataset_summary("/Path/TO/argoverse2_sensor_scenarios/val/")
                     for k,v in mapping_GT_val.items():
                         assert k not in mapping_GT
                         mapping_GT[k] = 'val/' + v + '/'
