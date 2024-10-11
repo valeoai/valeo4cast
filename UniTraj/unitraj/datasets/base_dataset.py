@@ -1769,8 +1769,6 @@ def draw_figures(cfg):
         if len(images) >= sum(concat_list):
             break
     final_image = concatenate_varying(images, concat_list)
-    final_image.save("/home/eloi/workspace/unitraj_images/1.png")
-    final_image.show()
 
     # kalman_dict = {}
     # # create 10 buckets with length 10 as the key
