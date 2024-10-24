@@ -1067,7 +1067,7 @@ class BaseDataset(Dataset):
             #TODO update xyh sdc index:
             # 'AV' is always in valid list.
             assert sdc_track_index in non_null_lines.tolist()
-            sdc_track_index = new_reindexing[sdc_track_index]
+            sdc_track_index_new = new_reindexing[sdc_track_index]
             
 
             assert -1 not in track_index_to_predict.tolist()   
@@ -1076,7 +1076,7 @@ class BaseDataset(Dataset):
              obj_trajs_future_mask, center_gt_trajs, center_gt_trajs_mask, center_gt_final_valid_idx,
              track_index_to_predict_new) = self.get_agent_data(
                 center_objects=center_objects, obj_trajs_past=obj_trajs_past_at_current_time, obj_trajs_future=obj_trajs_future_at_current_time,
-                track_index_to_predict=new_reindexing[track_index_to_predict], sdc_track_index=sdc_track_index,
+                track_index_to_predict=new_reindexing[track_index_to_predict], sdc_track_index=sdc_track_index_new,
                 timestamps=timestamps, obj_types=obj_types_at_current_time, object_scores= track_scores_past
             )
 
