@@ -194,8 +194,7 @@ class Tracking():
         if self.args.chunks == 1:
             # concatenate all the results
             all_av2_annos = {}
-            for result in results:
-                all_av2_annos.update(result)
+            all_av2_annos.update(results)
         
             res_dir = os.path.join(self.args.work_dir)
             if not os.path.exists(res_dir):
