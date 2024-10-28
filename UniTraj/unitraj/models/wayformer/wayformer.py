@@ -182,7 +182,50 @@ class Wayformer(BaseModel):
         loss = self.criterion(output, ground_truth, inputs['center_gt_final_valid_idx'])
         output['dataset_name'] = inputs['dataset_name']
         return output, loss
+    def predict_step(self, batch, batch_idx):
+        prediction_dict, loss = self.forward(batch)
+         prediction['predicted_trajectory'], prediction['predicted_probability'], selected_idxs = self.batch_nms(
+            pred_trajs=prediction['predicted_trajectory'], pred_scores=prediction['predicted_probability'],
+            dist_thresh=2.5,
+            num_ret_modes=self.c
+        )
+        pred_trajs_world = self.compute_pred_trajs_world(batch, prediction_dict)
 
+        input_dict = batch['input_dict']
+        pred_scores = prediction_dict['predicted_probability']
+        pred_trajs_world = self.compute_pred_trajs_world(batch, prediction_dict)
+        
+        if not (pred_scores.cpu().numpy()>=0.0).all():
+            print(pred_scores)
+            assert False
+
+        if 'past_det_scores' in prediction_dict:
+            past_det_scores = prediction_dict['past_det_scores']
+            past_det_scores = torch.sigmoid(past_det_scores)
+            #print(past_det_scores)
+            assert (past_det_scores.cpu().numpy()>=0.0).all()
+
+        else:
+            past_det_scores = torch.zeros_like(pred_scores[:,0]) + 1.0
+        assert past_det_scores.shape[0] == pred_scores.shape[0]
+        pred_dict_list = []
+        for bs_idx in range(batch['batch_size']):
+            single_pred_dict = {
+                'scenario_id': input_dict['scenario_id'][bs_idx],
+                'pred_trajs': pred_trajs_world[bs_idx, :, :, 0:2].cpu().numpy(),
+                'past_det_scores': past_det_scores[bs_idx].cpu().numpy(),
+                'pred_scores': pred_scores[bs_idx, :].cpu().numpy(),
+                'object_id': input_dict['center_objects_id'][bs_idx],
+                'object_type': input_dict['center_objects_type'][bs_idx],
+                'gt_trajs': input_dict['center_gt_trajs_src'][bs_idx].cpu().numpy(),
+                'track_index_to_predict': input_dict['track_index_to_predict'][bs_idx].cpu().numpy(),
+                'current_time_index': input_dict['current_time_indices'][bs_idx].cpu().numpy(),
+            }
+            pred_dict_list.append(single_pred_dict)
+
+        assert len(pred_dict_list) == batch['batch_size']
+
+        return prediction_dict, pred_trajs_world, pred_dict_list
     def validation_step(self, batch, batch_idx):
         prediction, loss = self.forward(batch)
 
